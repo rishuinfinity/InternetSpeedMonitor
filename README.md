@@ -110,4 +110,4 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 [GNU General Public License v3.0](LICENSE)
 
-Copyright © 2021 - 2022 [Rishu Raj](https://github.com/rishuinfinity)
+Copyright © 2021- [Rishu Raj](https://github.com/rishuinfinity)
