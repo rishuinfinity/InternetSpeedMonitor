@@ -1,7 +1,8 @@
 /*
-* Name: Internet Speed Meter
-* Description: A simple and minimal internet speed meter extension for Gnome Shell.
-* Author: Rishu
+* Name: Internet Speed Monitor
+* Description: Extension to Monitor Internet Speed and Daily Data Usage minimally.
+* Author: Rishu Raj
+* Modified from: InternetSpeedMeter by Al Shakib
 */
 
 const St = imports.gi.St;
@@ -17,7 +18,9 @@ const units = ["K", "M", "G", "T"];
 /////////////////////////////////////////
 let dataused = 0;
 let lastdataused = 0;
+let lastdate = ""
 let line2 = '';
+////////////////////////////////////////
 
 let prevUploadBytes = 0, prevDownloadBytes = 0;
 let uploadSpeed = 0.0, downloadSpeed = 0.0;
@@ -31,6 +34,7 @@ let logSize = 8000; // about 8k
 function getNetSpeed() {
   try {
     let file = Gio.file_new_for_path('/proc/net/dev');
+    let file2 = Gio.file_new_for_path(home_dir +'/.local/share/gnome-shell/extensions/InternetSpeedMonitor@Rishu/last');
     let fileStream = file.read(null);
     let dataStream = Gio.DataInputStream.new(fileStream);
     let uploadBytes = 0;
@@ -56,27 +60,19 @@ function getNetSpeed() {
     dataStream.close(null);
 
     ////////////////////////// Read last data used bytes
-    let file2 = Gio.file_new_for_path(home_dir +'/.local/share/gnome-shell/extensions/InternetSpeedMonitor@Rishu/last');
     let fileStream2 = file2.read(null);
     let dataStream2 = Gio.DataInputStream.new(fileStream2);
     line2 = dataStream2.read_line(null)
     line2 = String(line2);
-    // line2 = line2.split(/\W+/);
     line2 = line2.split(" ");
     lastdate = line2[1];
     line2 = line2[0];
     lastdataused = line2;
-    
-
-    // file2.replace( null,false, 0, null ).close(null);
-    // let dataStream = file2.append_to( 1, null );
-    // dataOutStream.write( "e", null );
-    // dataOutStream.close(null);
 
     fileStream2.close(null);
     dataStream2.close(null);
 
-    date = new Date().toLocaleDateString()
+    let date = new Date().toLocaleDateString()
     if(date != lastdate){
       resetLastData(date);
     }
