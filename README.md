@@ -90,13 +90,12 @@ Visit [Internet Speed Monitor - GNOME Shell Extensions](https://extensions.gnome
    chmod +x ./install.sh && ./install.sh
    ```
 
-4. Hit `ALT + F2`
+4. Hit `ALT + F2`, Type `r` and hit `Enter`
+   If you are on Ubuntu wayland mode, then restart once.
 
-5. Type `r` and hit `Enter`
+5. Open Gnome Tweaks 
 
-6. Open Gnome Tweaks 
-
-7. Enable Internet Speed Monitor extension in Gnome Tweaks
+6. Enable Internet Speed Monitor extension in Gnome Tweaks
 
 ## Contributing
 
