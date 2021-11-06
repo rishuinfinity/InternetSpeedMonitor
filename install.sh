@@ -24,6 +24,7 @@ if [[ "$(id -u)" -eq 0 ]]; then
   chown "${SUDO_USER}":"${SUDO_USER}" -R "${LOG_DIR}"
   INSTALL_DIR="/usr/share/gnome-shell/extensions"
 fi
+mkdir -p "${INSTALL_DIR}"
 
 # print <arg>
 print() {

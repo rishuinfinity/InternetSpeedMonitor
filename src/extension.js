@@ -71,11 +71,6 @@ function getNetSpeed() {
 
     fileStream2.close(null);
     dataStream2.close(null);
-
-    let date = new Date().toLocaleDateString()
-    if(date != lastdate){
-      resetLastData(date);
-    }
     //////////////////////////////////////
     if (prevUploadBytes === 0) {
       prevUploadBytes = uploadBytes;
@@ -90,8 +85,14 @@ function getNetSpeed() {
     downloadSpeed = (downloadBytes - prevDownloadBytes) / (refreshTime * unitBase);
 
     // Total internet used
-    dataused = (uploadBytes + downloadBytes) / unitBase
-;    
+    dataused = (uploadBytes + downloadBytes) / unitBase;
+
+    // Reset data used if necessary
+    let date = new Date().toLocaleDateString()
+    if(date != lastdate){
+      resetLastData(date);
+    }
+
     // Show upload + download = total speed on shell
     netSpeed.set_text("↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed) + " = " + netSpeedFormat(dataused - lastdataused));
     prevUploadBytes = uploadBytes;
