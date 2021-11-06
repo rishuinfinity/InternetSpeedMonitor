@@ -89,7 +89,7 @@ function getNetSpeed() {
 
     // Reset data used if necessary
     let date = new Date().toLocaleDateString()
-    if(date != lastdate){
+    if((date != lastdate) || (dataused < lastdataused)){
       resetLastData(date);
     }
 
@@ -131,7 +131,6 @@ function saveExceptionLog(e){
 }
 function resetLastData(d){
   let file2 = Gio.file_new_for_path(home_dir +'/.local/share/gnome-shell/extensions/InternetSpeedMonitor\@Rishu/last');
-
   file2.replace( null,false, 0, null ).close(null);
   let dataOutStream = file2.append_to( 1, null );
   dataOutStream.write( dataused.toString() + " " + d + " ", null );
