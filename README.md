@@ -91,6 +91,7 @@ Visit [Internet Speed Monitor - GNOME Shell Extensions](https://extensions.gnome
    ```
 
 4. Hit `ALT + F2`, Type `r` and hit `Enter`
+   
    If you are on Ubuntu wayland mode, then restart once.
 
 5. Open Gnome Tweaks 
