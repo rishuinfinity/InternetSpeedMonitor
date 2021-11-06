@@ -1,4 +1,4 @@
-# ⇅ Internet Speed Monitor
+# ↑↓ Internet Speed Monitor
 
 A Gnome extension to Monitor Internet Speed and Daily Data Usage in an elegant and minimal fashion.
 
