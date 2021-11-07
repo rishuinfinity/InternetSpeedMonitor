@@ -68,7 +68,7 @@ You may find Gnome Tweaks for other distributions as well. Install them accordin
 
 ### Install Internet Speed Monitor from Gnome Extensions
 
-Visit [Internet Speed Monitor - GNOME Shell Extensions](https://extensions.gnome.org/extension/) 
+Visit [Internet Speed Monitor - GNOME Shell Extensions](https://extensions.gnome.org/extension/4585/internet-speed-monitor/) 
 
 ### Install Internet Speed Monitor from source
 

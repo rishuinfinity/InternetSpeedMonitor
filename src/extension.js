@@ -138,6 +138,16 @@ function resetLastData(d){
 }
 
 function init() {
+  /* Note to reviewer:
+  // This is my first time creating an extension.
+  // I need the empty file named "last" in src folder.
+  // I tried creating the file in init, but i am having 
+  // a hard time doing that. So, If I can't add the "last"
+  // file, plz help me on how to create it in init. Thanks
+  */
+}
+
+function enable() {
   container = new St.Bin({
     style_class: 'panel-button',
     reactive: true,
@@ -153,9 +163,8 @@ function init() {
     y_align: Clutter.ActorAlign.CENTER
   });
   container.set_child(netSpeed);
-}
 
-function enable() {
+  // Positioning and Starting the extension
   Main.panel._leftBox.insert_child_at_index(container, 20);
   timeout = Mainloop.timeout_add_seconds(refreshTime, getNetSpeed);
 }
@@ -163,4 +172,6 @@ function enable() {
 function disable() {
   Mainloop.source_remove(timeout);
   Main.panel._leftBox.remove_child(container);
+  container.destroy();
+  container = null;
 }
