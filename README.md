@@ -34,6 +34,10 @@ This extension has following features:
    + G means GB/s
    + T means TB/s
 - Similarly, data used is also shown with one letter after '=' symbol.
+- To reset the data used value manually anytime, run the following command. You can even make an alias of this command for easier use.
+   ```
+   sed -i '1s;^;0\n;' ~/.local/share/gnome-shell/extensions/InternetSpeedMonitor@Rishu/last 
+   ```
 - If encountered any error, it prints the error in place
    of the extension so that the user if capable and solve it on their own.
 
