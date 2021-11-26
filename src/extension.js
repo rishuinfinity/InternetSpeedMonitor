@@ -11,6 +11,7 @@ const Gio = imports.gi.Gio;
 const GLib  = imports.gi.GLib;
 const Clutter = imports.gi.Clutter;
 const Mainloop = imports.mainloop;
+const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const refreshTime = 1.0; // Set refresh time to one second.
 const unitBase = 1024.0; // 1 GB == 1024MB or 1MB == 1024KB etc.
@@ -19,7 +20,7 @@ const units = ["K", "M", "G", "T"];
 let dataused = 0;
 let lastdataused = 0;
 let lastdate = ""
-let line2 = '';
+let settings;
 ////////////////////////////////////////
 
 let prevUploadBytes = 0, prevDownloadBytes = 0;
@@ -28,13 +29,24 @@ let container, timeout, netSpeed, defaultNetSpeedText;
 let home_dir = GLib.get_home_dir();
 let logSize = 8000; // about 8k
 
-
-
+function getSettings () {
+  let GioSSS = Gio.SettingsSchemaSource;
+  let schemaSource = GioSSS.new_from_directory(
+    Me.dir.get_child("schemas").get_path(),
+    GioSSS.get_default(),
+    false
+  );
+  let schemaObj = schemaSource.lookup(
+    'org.gnome.shell.extensions.InternetSpeedMonitor', true);
+  if (!schemaObj) {
+    throw new Error('cannot find schemas');
+  }
+  return new Gio.Settings({ settings_schema : schemaObj });
+}
 
 function getNetSpeed() {
   try {
     let file = Gio.file_new_for_path('/proc/net/dev');
-    let file2 = Gio.file_new_for_path(home_dir +'/.local/share/gnome-shell/extensions/InternetSpeedMonitor@Rishu/last');
     let fileStream = file.read(null);
     let dataStream = Gio.DataInputStream.new(fileStream);
     let uploadBytes = 0;
@@ -59,19 +71,9 @@ function getNetSpeed() {
     fileStream.close(null);
     dataStream.close(null);
 
-    ////////////////////////// Read last data used bytes
-    let fileStream2 = file2.read(null);
-    let dataStream2 = Gio.DataInputStream.new(fileStream2);
-    line2 = dataStream2.read_line(null)
-    line2 = String(line2);
-    line2 = line2.split(" ");
-    lastdate = line2[1];
-    line2 = line2[0];
-    lastdataused = line2;
+    lastdate = settings.get_string('last-save-date')
+    lastdataused = settings.get_double('last-data-saved')
 
-    fileStream2.close(null);
-    dataStream2.close(null);
-    //////////////////////////////////////
     if (prevUploadBytes === 0) {
       prevUploadBytes = uploadBytes;
     }
@@ -94,7 +96,20 @@ function getNetSpeed() {
     }
 
     // Show upload + download = total speed on shell
-    netSpeed.set_text("↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed) + " = " + netSpeedFormat(dataused - lastdataused));
+    finaltext = "";
+    if(settings.get_boolean('separate-format'))
+    {
+      finaltext += "↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed);
+    } else {
+      finaltext += "⇅ " + netSpeedFormat(uploadSpeed+downloadSpeed)+" ";
+    }
+
+    if (settings.get_boolean('show-data-used'))
+    {
+      finaltext+=  " = " + netSpeedFormat(dataused - lastdataused);
+    }
+    netSpeed.set_text(finaltext);
+    // netSpeed.set_text("↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed) + " = " + netSpeedFormat(dataused - lastdataused) + " ");
     prevUploadBytes = uploadBytes;
     prevDownloadBytes = downloadBytes;
   } catch(e) {
@@ -103,6 +118,7 @@ function getNetSpeed() {
   }
   return true;
 }
+
 
 function netSpeedFormat(speed) {
   let i = 0;
@@ -130,21 +146,12 @@ function saveExceptionLog(e){
 
 }
 function resetLastData(d){
-  let file2 = Gio.file_new_for_path(home_dir +'/.local/share/gnome-shell/extensions/InternetSpeedMonitor\@Rishu/last');
-  file2.replace( null,false, 0, null ).close(null);
-  let dataOutStream = file2.append_to( 1, null );
-  dataOutStream.write( dataused.toString() + " " + d + " ", null );
-  dataOutStream.close(null);
+  settings.set_string('last-save-date',d);
+  settings.set_double('last-data-saved',dataused);
 }
 
 function init() {
-  /* Note to reviewer:
-  // This is my first time creating an extension.
-  // I need the empty file named "last" in src folder.
-  // I tried creating the file in init, but i am having 
-  // a hard time doing that. So, If I can't add the "last"
-  // file, plz help me on how to create it in init. Thanks
-  */
+
 }
 
 function enable() {
@@ -156,16 +163,21 @@ function enable() {
     y_expand: false,
     track_hover: false
   });
-  defaultNetSpeedText = '⇅ -.-- --';
+  defaultNetSpeedText = '⇅ --';
   netSpeed = new St.Label({
     text: defaultNetSpeedText ,
     style_class: 'netSpeedLabel',
     y_align: Clutter.ActorAlign.CENTER
   });
   container.set_child(netSpeed);
-
+  settings = getSettings();
+  // log("Starting with used_data set as "+settings.get_boolean('show-data-used')+" separate-format as "+ settings.get_boolean('separate-format')+" in "+settings.get_enum('my-position')+" side.");
   // Positioning and Starting the extension
-  Main.panel._leftBox.insert_child_at_index(container, 20);
+  if(settings.get_boolean('pos-left')){
+    Main.panel._leftBox.insert_child_at_index(container, 20);
+  }else{
+    Main.panel._rightBox.insert_child_at_index(container, 0);
+  }
   timeout = Mainloop.timeout_add_seconds(refreshTime, getNetSpeed);
 }
 

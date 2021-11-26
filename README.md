@@ -4,42 +4,52 @@ A Gnome extension to Monitor Internet Speed and Daily Data Usage in an elegant a
 
 ## Table of Contents
 
-* [Screenshot](#screenshot)
-* [Features](#features)
-* [Getting Started](#getting-started)
-  + [Prerequisite:](#prerequisite-)
-    - [Install Gnome Tweaks](#install-gnome-tweaks)
-  + [Install Internet Speed Monitor from Gnome Extensions](#install-internet-speed-monitor-from-gnome-extensions)
-  + [Install Internet Speed Monitor from source](#install-internet-speed-monitor-from-source)
-* [Contributing](#contributing)
-* [Thanks to](#thanks-to)
-* [License](#license)
+- [↑↓ Internet Speed Monitor](#-internet-speed-monitor)
+  - [Table of Contents](#table-of-contents)
+  - [Screenshots](#screenshots)
+  - [Updates](#updates)
+  - [Features](#features)
+  - [Getting Started](#getting-started)
+    - [Prerequisite: Install Gnome Tweaks](#prerequisite-install-gnome-tweaks)
+    - [Install Internet Speed Monitor from Gnome Extensions](#install-internet-speed-monitor-from-gnome-extensions)
+    - [Install Internet Speed Monitor from source](#install-internet-speed-monitor-from-source)
+  - [Contributing](#contributing)
+  - [Thanks to](#thanks-to)
+  - [License](#license)
 
+## Screenshots
 
-## Screenshot
+![Screenshot](screenshots/1.png)
+![Screenshot](screenshots/4.png)
+![Screenshot](screenshots/3.png)
+![Screenshot](screenshots/2.png)
+![Screenshot](screenshots/setting.png)
 
-![Screenshot](screenshot.png)
+## Updates
+
+The new release packs the following new features.
+
+* Added settings for more customization options.
+  * You can now choose which side you want your widget to be located.
+  * Choose whow much to display 
+  * Reset the data used info manually from settings
+* Better implemented code.
 
 ## Features
 
 This extension has following features:
 
-- Shows internet upload speed and download speed minimally
-- Shows daily data usage since midnight
-- Position of the extension is set on left hand side
-- Upload and Download speeds are shown after '↑' and '↓' respectively.
-- Speed is shown with just one letter
-   + K means KB/s
-   + M means MB/s
-   + G means GB/s
-   + T means TB/s
-- Similarly, data used is also shown with one letter after '=' symbol.
-- To reset the data used value manually anytime, run the following command. You can even make an alias of this command for easier use.
-   ```
-   sed -i '1s;^;0\n;' ~/.local/share/gnome-shell/extensions/InternetSpeedMonitor@Rishu/last 
-   ```
-- If encountered any error, it prints the error in place
-   of the extension so that the user if capable and solve it on their own.
+* Highly Customizable
+* Minimal and elegant look
+* Speed is shown with just one letter
+  * K means KB/s
+  * M means MB/s
+  * G means GB/s
+  * T means TB/s
+* Similarly, data used is also shown with one letter after '=' symbol.
+* Upload and Download speeds are shown after '↑' and '↓' respectively.
+* If encountered any error, it prints the error in place
+   of the extension so that the user if capable can solve it on their own.
 
 ## Getting Started
 
@@ -108,7 +118,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 
 ## Thanks to
 
-- This project is modified from [Internet Speed Meter](https://github.com/AlShakib/InternetSpeedMeter) by [Al Shakib](https://alshakib.dev) 
+- This project is modified from [Internet Speed Meter](https://github.com/AlShakib/InternetSpeedMeter) by [Al Shakib](https://alshakib.dev)
 
 ## License
 

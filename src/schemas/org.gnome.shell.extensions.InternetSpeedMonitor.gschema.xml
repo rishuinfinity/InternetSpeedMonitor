@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+
+  <schema id="org.gnome.shell.extensions.InternetSpeedMonitor"
+    path="/org/gnome/shell/extensions/InternetSpeedMonitor/">
+    
+    <key name="last-data-saved" type="d">
+      <default>0</default>
+      <summary>Last Data used value</summary>
+      <description>This value shows how much data was used by last night. Using this it is calculated that how much data has been used since last night.</description>
+    </key>
+    
+    <key name="last-save-date" type = "s">
+      <default>"no-date"</default>
+      <summary>Last Date on which data used was stored</summary>
+      <description>Specifies when was the data used saved last time</description>
+    </key>
+
+    <key name="show-data-used" type="b">
+      <default>true</default>
+      <summary>Show Data Used</summary>
+      <description>If set to true It shows Data used along with speed.</description>
+    </key>
+    
+    <key name="separate-format" type="b">
+      <default>true</default>
+      <summary>Separate format to show speed</summary>
+      <description>Shows upload and download speed separately when true.</description>
+    </key>
+    
+    <key name="pos-left" type="b">
+      <default>true</default>
+      <summary>Position extension on the left</summary>
+      <description>Sets the position of the extension to the left side.</description>
+    </key>
+
+  </schema>
+</schemalist>

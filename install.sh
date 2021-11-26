@@ -79,6 +79,7 @@ install() {
   print "Installing to ${INSTALL_DIR}"
   rm -rf "${INSTALL_DIR}/InternetSpeedMonitor@Rishu"
   cp -rf "${SRC_DIR}/src" "${INSTALL_DIR}/InternetSpeedMonitor@Rishu" &>> "$LOG_FILE"
+  glib-compile-schemas --strict --targetdir="${INSTALL_DIR}/InternetSpeedMonitor@Rishu/schemas" "${INSTALL_DIR}/InternetSpeedMonitor@Rishu/schemas"
   mkdir -p "$HOME/.local/var/log/"
   touch "$HOME/.local/var/log/InternetSpeedMonitor.log"
   is_failed "Done" "Skipping: Can not install to ${INSTALL_DIR}. See log for more info."
