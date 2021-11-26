@@ -101,7 +101,7 @@ function getNetSpeed() {
     {
       finaltext += "↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed);
     } else {
-      finaltext += "⇅ " + netSpeedFormat(uploadSpeed+downloadSpeed)+" ";
+      finaltext += "⇅ " + netSpeedFormat(uploadSpeed+downloadSpeed);
     }
 
     if (settings.get_boolean('show-data-used'))
