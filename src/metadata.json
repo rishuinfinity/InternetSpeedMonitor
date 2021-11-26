@@ -3,17 +3,11 @@
   "description": "Extension to Monitor Internet Speed and Daily Data Usage minimally.\n It is a fork of InternetSpeedMeter",
   "name": "Internet Speed Monitor",
   "shell-version": [
-    "3.20",
-    "3.22",
-    "3.24",
-    "3.26",
-    "3.28",
-    "3.30",
     "3.34",
-    "3.32",
     "3.36",
     "3.38",
-    "40"
+    "40",
+    "41"
   ],
   "url": "https://github.com/rishuinfinity/InternetSpeedMonitor",
   "uuid": "InternetSpeedMonitor@Rishu",

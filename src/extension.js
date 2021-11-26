@@ -11,6 +11,7 @@ const Gio = imports.gi.Gio;
 const GLib  = imports.gi.GLib;
 const Clutter = imports.gi.Clutter;
 const Mainloop = imports.mainloop;
+const ExtensionUtils = imports.misc.extensionUtils;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
 
 const refreshTime = 1.0; // Set refresh time to one second.
@@ -28,21 +29,6 @@ let uploadSpeed = 0.0, downloadSpeed = 0.0;
 let container, timeout, netSpeed, defaultNetSpeedText;
 let home_dir = GLib.get_home_dir();
 let logSize = 8000; // about 8k
-
-function getSettings () {
-  let GioSSS = Gio.SettingsSchemaSource;
-  let schemaSource = GioSSS.new_from_directory(
-    Me.dir.get_child("schemas").get_path(),
-    GioSSS.get_default(),
-    false
-  );
-  let schemaObj = schemaSource.lookup(
-    'org.gnome.shell.extensions.InternetSpeedMonitor', true);
-  if (!schemaObj) {
-    throw new Error('cannot find schemas');
-  }
-  return new Gio.Settings({ settings_schema : schemaObj });
-}
 
 function getNetSpeed() {
   try {
@@ -96,7 +82,7 @@ function getNetSpeed() {
     }
 
     // Show upload + download = total speed on shell
-    finaltext = "";
+    let finaltext = "";
     if(settings.get_boolean('separate-format'))
     {
       finaltext += "↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed);
@@ -170,7 +156,8 @@ function enable() {
     y_align: Clutter.ActorAlign.CENTER
   });
   container.set_child(netSpeed);
-  settings = getSettings();
+  settings = ExtensionUtils.getSettings(
+    'org.gnome.shell.extensions.InternetSpeedMonitor');
   // log("Starting with used_data set as "+settings.get_boolean('show-data-used')+" separate-format as "+ settings.get_boolean('separate-format')+" in "+settings.get_enum('my-position')+" side.");
   // Positioning and Starting the extension
   if(settings.get_boolean('pos-left')){
@@ -186,4 +173,5 @@ function disable() {
   Main.panel._leftBox.remove_child(container);
   container.destroy();
   container = null;
+  settings = null;
 }

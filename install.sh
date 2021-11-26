@@ -89,7 +89,9 @@ install() {
 build() {
   print "Creating InternetSpeedMonitor@Rishu.zip"
   mkdir -p "${SRC_DIR}/out"
-  zip -6rXj "$SRC_DIR/out/InternetSpeedMonitor@Rishu.zip" "src" &>> "$LOG_FILE"
+  cd "src"
+  zip -6rX "$SRC_DIR/out/InternetSpeedMonitor@Rishu.zip" * &>> "$LOG_FILE"
+  cd ..
   is_failed "Done" "Skipping: Creating zip is failed. See log for more info."
 }
 
