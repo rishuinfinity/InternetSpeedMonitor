@@ -85,9 +85,9 @@ function getNetSpeed() {
     let finaltext = "";
     if(settings.get_boolean('separate-format'))
     {
-      finaltext += "↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed);
+      finaltext +=  netSpeedFormat(uploadSpeed) + "↑ "  + netSpeedFormat(downloadSpeed) + "↓ ";
     } else {
-      finaltext += "⇅ " + netSpeedFormat(uploadSpeed+downloadSpeed);
+      finaltext += netSpeedFormat(uploadSpeed+downloadSpeed) + "⇅ ";
     }
 
     if (settings.get_boolean('show-data-used'))
@@ -112,7 +112,7 @@ function netSpeedFormat(speed) {
     speed /= unitBase;
     i++;
   }
-  return String(speed.toFixed(2) + "" + units[i]);
+  return String(speed.toFixed(2) + "" + units[i]).padStart(7);
 }
 
 function saveExceptionLog(e){
@@ -149,7 +149,7 @@ function enable() {
     y_expand: false,
     track_hover: false
   });
-  defaultNetSpeedText = '⇅ --';
+  defaultNetSpeedText = '-- ⇅';
   netSpeed = new St.Label({
     text: defaultNetSpeedText ,
     style_class: 'netSpeedLabel',
