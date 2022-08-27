@@ -107,6 +107,36 @@ function buildPrefsWidget() {
     );
 
 
+///////////////////////////  4th switch
+    // Create a label & switch for `format`
+    let showSeparatelyFlippedLabel = new Gtk.Label({
+        label: '<b>Flip Upload and Download speeds locations:</b>',
+        halign: Gtk.Align.START,
+        use_markup: true,
+        visible: true
+    });
+    prefsWidget.attach(showSeparatelyFlippedLabel, 0, 4, 1, 1);
+
+    let showSeparatelyFlippedtoggle = new Gtk.Switch({
+        active: this.settings.get_boolean ('separate-format-flipped'),
+        halign: Gtk.Align.END,
+        hexpand: true,
+        visible: true
+    });
+    prefsWidget.attach(showSeparatelyFlippedtoggle, 1, 4, 1, 1);
+
+    // Bind the switch to the `show-indicator` key
+    this.settings.bind(
+        'separate-format-flipped',
+        showSeparatelyFlippedtoggle,
+        'active',
+        Gio.SettingsBindFlags.DEFAULT
+    );
+
+
+
+
+
 ///////////////////////////  Reset Button
 
     let resetButton = new Gtk.Button({
@@ -116,7 +146,7 @@ function buildPrefsWidget() {
     resetButton.connect('clicked', () => {
         this.settings.set_string('last-save-date',"random");
     });
-    prefsWidget.attach(resetButton, 0, 4, 2, 1);
+    prefsWidget.attach(resetButton, 0, 5, 2, 1);
 
     // Return our widget which will be added to the window
     return prefsWidget;

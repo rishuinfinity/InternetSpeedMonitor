@@ -83,9 +83,12 @@ function getNetSpeed() {
 
     // Show upload + download = total speed on shell
     let finaltext = "";
-    if(settings.get_boolean('separate-format'))
-    {
-      finaltext += "↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed);
+    if (settings.get_boolean('separate-format')) {
+      if (settings.get_boolean('separate-format-flipped')) {
+        finaltext += "↓ " + netSpeedFormat(downloadSpeed) + " ↑ " + netSpeedFormat(uploadSpeed);
+      } else {
+        finaltext += "↑ " + netSpeedFormat(uploadSpeed) + " ↓ " + netSpeedFormat(downloadSpeed);
+      }
     } else {
       finaltext += "⇅ " + netSpeedFormat(uploadSpeed+downloadSpeed);
     }
