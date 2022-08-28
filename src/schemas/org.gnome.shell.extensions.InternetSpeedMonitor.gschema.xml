@@ -27,6 +27,12 @@
       <summary>Separate format to show speed</summary>
       <description>Shows upload and download speed separately when true.</description>
     </key>
+
+    <key name="separate-format-flipped" type="b">
+      <default>true</default>
+      <summary>Separate format to show speed</summary>
+      <description>Shows upload and download speed separately when true.</description>
+    </key>
     
     <key name="pos-left" type="b">
       <default>true</default>
