@@ -13,6 +13,7 @@ const Clutter = imports.gi.Clutter;
 const Mainloop = imports.mainloop;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Me = imports.misc.extensionUtils.getCurrentExtension();
+const ByteArray = imports.byteArray;
 
 const refreshTime = 1.0; // Set refresh time to one second.
 const unitBase = 1024.0; // 1 GB == 1024MB or 1MB == 1024KB etc.
@@ -20,7 +21,7 @@ const units = ["K", "M", "G", "T"];
 /////////////////////////////////////////
 let dataused = 0;
 let lastdataused = 0;
-let lastdate = ""
+let lastdate = "";
 let settings;
 ////////////////////////////////////////
 
@@ -32,30 +33,29 @@ let logSize = 8000; // about 8k
 
 function getNetSpeed() {
   try {
-    let file = Gio.file_new_for_path('/proc/net/dev');
-    let fileStream = file.read(null);
-    let dataStream = Gio.DataInputStream.new(fileStream);
+    const file = Gio.file_new_for_path('/proc/net/dev');
+    const [, fileStream] = file.load_contents(null);
+    const lines = ByteArray.toString(fileStream).split('\n');
     let uploadBytes = 0;
     let downloadBytes = 0;
-    let line = '';
-    while((line = dataStream.read_line(null)) != null) {
-      line = String(line);
-      line = line.trim();
-      let column = line.split(/\W+/);
-      if (column.length <= 2) break;
-      if (column[0] != 'lo' &&
+
+    for (let i = 0; i < lines.length; ++i) {
+      const line = lines[i].trim();
+      const column = line.split(/\W+/);
+      if (column.length <= 2) continue;
+      if (
+        column[0] != 'lo' &&
          !isNaN(parseInt(column[1])) &&
          !column[0].match(/^br[0-9]+/) &&
          !column[0].match(/^tun[0-9]+/) &&
          !column[0].match(/^tap[0-9]+/) &&
          !column[0].match(/^vnet[0-9]+/) &&
-         !column[0].match(/^virbr[0-9]+/)) {
+        !column[0].match(/^virbr[0-9]+/)
+      ) {
         uploadBytes = uploadBytes + parseInt(column[9]);
         downloadBytes = downloadBytes + parseInt(column[1]);
       }
     }
-    fileStream.close(null);
-    dataStream.close(null);
 
     lastdate = settings.get_string('last-save-date')
     lastdataused = settings.get_double('last-data-saved')
@@ -76,7 +76,7 @@ function getNetSpeed() {
     dataused = (uploadBytes + downloadBytes) / unitBase;
 
     // Reset data used if necessary
-    let date = new Date().toLocaleDateString()
+    const date = new Date().toLocaleDateString();
     if((date != lastdate) || (dataused < lastdataused)){
       resetLastData(date);
     }
@@ -107,7 +107,6 @@ function getNetSpeed() {
   }
   return true;
 }
-
 
 function netSpeedFormat(speed) {
   let i = 0;
