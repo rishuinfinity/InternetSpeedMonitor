@@ -4,9 +4,10 @@
   "name": "Internet Speed Monitor",
   "shell-version": [
     "42",
-    "43"
+    "43",
+    "44"
   ],
   "url": "https://github.com/rishuinfinity/InternetSpeedMonitor",
   "uuid": "InternetSpeedMonitor@Rishu",
-  "version": 5
+  "version": 8
 }
