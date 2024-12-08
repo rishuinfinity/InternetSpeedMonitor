@@ -15,7 +15,6 @@ export default class InternetSpeedMonitorPreferences extends ExtensionPreference
 
     // Create a parent widget that we'll return from this function
     let prefsWidget = new Gtk.Grid({
-      // margin: 18,
       margin_start: 40,
       margin_end: 40,
       margin_top: 40,
@@ -70,12 +69,12 @@ export default class InternetSpeedMonitorPreferences extends ExtensionPreference
     ///////////////////////////  3nd switch
     // Create a label & switch for `positioning`
     let positioningLabel = new Gtk.Label({
-      label: '<b>Show the extension on the left side:</b> (restart the extension for changes to appear)',
+      label: '<b>Show the extension on the left side:</b>\n(restart the extension for changes to appear)',
       halign: Gtk.Align.START,
       use_markup: true,
       visible: true,
     })
-    prefsWidget.attach(positioningLabel, 0, 3, 1, 1)
+    prefsWidget.attach(positioningLabel, 0, 3, 1, 2)
 
     let positioningtoggle = new Gtk.Switch({
       active: settings.get_boolean('pos-left'),
@@ -96,7 +95,7 @@ export default class InternetSpeedMonitorPreferences extends ExtensionPreference
       use_markup: true,
       visible: true,
     })
-    prefsWidget.attach(showSeparatelyFlippedLabel, 0, 4, 1, 1)
+    prefsWidget.attach(showSeparatelyFlippedLabel, 0, 5, 1, 1)
 
     let showSeparatelyFlippedtoggle = new Gtk.Switch({
       active: settings.get_boolean('separate-format-flipped'),
@@ -104,7 +103,7 @@ export default class InternetSpeedMonitorPreferences extends ExtensionPreference
       hexpand: true,
       visible: true,
     })
-    prefsWidget.attach(showSeparatelyFlippedtoggle, 1, 4, 1, 1)
+    prefsWidget.attach(showSeparatelyFlippedtoggle, 1, 5, 1, 1)
 
     // Bind the switch to the `show-indicator` key
     settings.bind('separate-format-flipped', showSeparatelyFlippedtoggle, 'active', Gio.SettingsBindFlags.DEFAULT)
@@ -118,7 +117,7 @@ export default class InternetSpeedMonitorPreferences extends ExtensionPreference
     resetButton.connect('clicked', () => {
       settings.set_string('last-save-date', 'random')
     })
-    prefsWidget.attach(resetButton, 0, 5, 2, 1)
+    prefsWidget.attach(resetButton, 0, 6, 2, 1)
 
     // Return our widget which will be added to the window
     return prefsWidget
